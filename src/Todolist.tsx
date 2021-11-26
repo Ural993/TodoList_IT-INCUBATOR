@@ -6,6 +6,9 @@ import IconButton from '@material-ui/core/IconButton';
 import { Delete } from '@material-ui/icons';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
+import List from '@material-ui/core/List/List';
+import ListItem from '@material-ui/core/ListItem';
+import Typography from "@material-ui/core/Typography";
 
 
 export type TaskType = {
@@ -45,13 +48,13 @@ export function Todolist(props: PropsType) {
     const onCompletedClickHandler = () => props.changeFilter("completed", props.id);
 
     return <div>
-        <h3> <EditableSpan value={props.title} onChange={changeTodolistTitle} />
+        <Typography align={"center"} variant={'h6'} style={{fontWeight:'bold'}}> <EditableSpan value={props.title} onChange={changeTodolistTitle} />
             <IconButton onClick={removeTodolist} aria-label="delete" size="small">
                 <Delete fontSize="inherit" />
             </IconButton>
-        </h3>
+        </Typography>
         <AddItemForm addItem={addTask} />
-        <ul>
+        <List>
             {
                 props.tasks.map(t => {
                     const onClickHandler = () => props.removeTask(t.id, props.id)
@@ -64,16 +67,16 @@ export function Todolist(props: PropsType) {
                     }
 
 
-                    return <li key={t.id} className={t.isDone ? "is-done" : ""}>
+                    return <ListItem divider={true} key={t.id} className={t.isDone ? "is-done" : ""}>
                         <Checkbox onChange={onChangeHandler} checked={t.isDone} />
                         <EditableSpan value={t.title} onChange={onTitleChangeHandler} />
                         <IconButton onClick={onClickHandler} aria-label="delete" size="small">
                             <Delete fontSize="inherit" />
                         </IconButton>
-                    </li>
+                    </ListItem>
                 })
             }
-        </ul>
+        </List>
         <div>
             <Button variant={props.filter === 'all' ? "contained" : "text"}
                 onClick={onAllClickHandler}>All
