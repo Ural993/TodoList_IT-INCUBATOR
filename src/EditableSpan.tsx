@@ -1,5 +1,5 @@
 import TextField from '@material-ui/core/TextField';
-import React, { ChangeEvent, useState } from 'react';
+import React, {ChangeEvent, useCallback, useState} from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import { Edit } from '@material-ui/icons';
 
@@ -8,7 +8,8 @@ type EditableSpanPropsType = {
     onChange: (newValue: string) => void
 }
 
-export function EditableSpan(props: EditableSpanPropsType) {
+export const EditableSpan = React.memo((props: EditableSpanPropsType) =>{
+    console.log('EditableSpan')
     let [editMode, setEditMode] = useState(false);
     let [title, setTitle] = useState(props.value);
 
@@ -31,4 +32,4 @@ export function EditableSpan(props: EditableSpanPropsType) {
                 <Edit fontSize={"small"}/>
             </IconButton>
     </span>
-}
+})
