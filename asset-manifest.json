@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/repository-name/static/css/main.2e7919c8.chunk.css",
-    "main.js": "/repository-name/static/js/main.bb67c0f8.chunk.js",
-    "main.js.map": "/repository-name/static/js/main.bb67c0f8.chunk.js.map",
-    "runtime-main.js": "/repository-name/static/js/runtime-main.fbd8a974.js",
-    "runtime-main.js.map": "/repository-name/static/js/runtime-main.fbd8a974.js.map",
-    "static/js/2.0ce03d8b.chunk.js": "/repository-name/static/js/2.0ce03d8b.chunk.js",
-    "static/js/2.0ce03d8b.chunk.js.map": "/repository-name/static/js/2.0ce03d8b.chunk.js.map",
-    "index.html": "/repository-name/index.html",
-    "static/css/main.2e7919c8.chunk.css.map": "/repository-name/static/css/main.2e7919c8.chunk.css.map",
-    "static/js/2.0ce03d8b.chunk.js.LICENSE.txt": "/repository-name/static/js/2.0ce03d8b.chunk.js.LICENSE.txt"
+    "main.css": "/TodoList_IT-INCUBATOR/static/css/main.2e7919c8.chunk.css",
+    "main.js": "/TodoList_IT-INCUBATOR/static/js/main.01a6a998.chunk.js",
+    "main.js.map": "/TodoList_IT-INCUBATOR/static/js/main.01a6a998.chunk.js.map",
+    "runtime-main.js": "/TodoList_IT-INCUBATOR/static/js/runtime-main.6426137e.js",
+    "runtime-main.js.map": "/TodoList_IT-INCUBATOR/static/js/runtime-main.6426137e.js.map",
+    "static/js/2.0ce03d8b.chunk.js": "/TodoList_IT-INCUBATOR/static/js/2.0ce03d8b.chunk.js",
+    "static/js/2.0ce03d8b.chunk.js.map": "/TodoList_IT-INCUBATOR/static/js/2.0ce03d8b.chunk.js.map",
+    "index.html": "/TodoList_IT-INCUBATOR/index.html",
+    "static/css/main.2e7919c8.chunk.css.map": "/TodoList_IT-INCUBATOR/static/css/main.2e7919c8.chunk.css.map",
+    "static/js/2.0ce03d8b.chunk.js.LICENSE.txt": "/TodoList_IT-INCUBATOR/static/js/2.0ce03d8b.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.fbd8a974.js",
+    "static/js/runtime-main.6426137e.js",
     "static/js/2.0ce03d8b.chunk.js",
     "static/css/main.2e7919c8.chunk.css",
-    "static/js/main.bb67c0f8.chunk.js"
+    "static/js/main.01a6a998.chunk.js"
   ]
 }
