@@ -12,21 +12,18 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import {
-    AddTodolistAC,
+    AddTodolistAC, addTodolistTC,
     ChangeTodolistFilterAC,
-    ChangeTodolistTitleAC, getTodolists,
-    RemoveTodolistAC,
+    ChangeTodolistTitleAC, getTodolists, removeTodolistTC,
 } from "./state/todolistsReducer";
 import {
-    addTaskAC,
     addTaskTC,
     changeTaskStatusAC,
-    changeTaskTitleAC, changeTaskTitleTC,
-    removeTaskAC,
+    changeTaskTitleTC,
     removeTaskTC
 } from "./state/tasksReducer";
 import {useDispatch, useSelector} from "react-redux";
-import { TaskType } from './api/api';
+import {TaskType} from './api/api';
 import {AppRootStateType} from "./state/store";
 
 export type FilterValuesType = "all" | "active" | "completed";
@@ -71,13 +68,11 @@ export function App() {
     }, [])
 
     const addTodolist = useCallback((title: string) => {
-        let action = AddTodolistAC(title)
-        dispatch(action)
+        dispatch(addTodolistTC(title))
     }, [])
 
     const removeTodolist = useCallback((id: string) => {
-        let action = RemoveTodolistAC(id)
-        dispatch(action)
+        dispatch(removeTodolistTC(id))
     }, [])
 
     const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {

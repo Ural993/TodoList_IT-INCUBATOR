@@ -4,8 +4,6 @@ import {
     AddTodolistActionType,
     RemoveTodolistActionType,
     setTodolistsACType,
-    todolistId1,
-    todolistId2
 } from "./todolistsReducer";
 import {Dispatch} from "redux";
 import {TaskPriorities, TaskStatuses, TaskType, todoApi, UpdateTaskModelType} from "../api/api";
@@ -75,7 +73,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             return newState
         case 'SET-TODOLISTS': {
             const stateCopy = {...state}
-            action.data.forEach((tl) => {
+            action.todolists.forEach((tl) => {
                 stateCopy[tl.id] = []
             })
             return stateCopy;

@@ -11,6 +11,12 @@ export const todoApi = {
     getTodolists: () => {
         return initial.get('todo-lists')
     },
+    removeTodolist:(todolistId:string)=>{
+        return initial.delete(`todo-lists/${todolistId}`)
+    },
+    addTodolist:(title:string)=>{
+        return initial.post('todo-lists', {title})
+    },
     getTasks: (todolistId: string) => {
         return initial.get(`todo-lists/${todolistId}/tasks`)
     },
