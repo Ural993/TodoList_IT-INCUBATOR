@@ -17,6 +17,9 @@ export const todoApi = {
     addTodolist:(title:string)=>{
         return initial.post('todo-lists', {title})
     },
+    changeTodolistTitle:(todolistId:string, title:string)=>{
+        return initial.put(`todo-lists/${todolistId}`, {title})
+    },
     getTasks: (todolistId: string) => {
         return initial.get(`todo-lists/${todolistId}/tasks`)
     },
