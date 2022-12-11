@@ -29,7 +29,7 @@ export const todoApi = {
     addTask:(todolistId:string, title:string)=>{
         return initial.post(`todo-lists/${todolistId}/tasks`, {title:title})
     },
-    changeTaskTitle:(todolistId:string, taskId:string, data:UpdateTaskModelType)=>{
+    changeTask:(todolistId:string, taskId:string, data:UpdateTaskModelType)=>{
         return initial.put(`todo-lists/${todolistId}/tasks/${taskId}`, data)
     }
 }

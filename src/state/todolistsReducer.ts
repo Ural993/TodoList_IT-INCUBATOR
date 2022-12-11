@@ -86,11 +86,14 @@ export const removeTodolistTC = (todolistId: string) => (dispatch: Dispatch) => 
         })
 }
 
-export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
-    return todoApi.addTodolist(title)
-        .then((res) => {
-            dispatch(AddTodolistAC(res.data.data.item))
-        })
+export const addTodolistTC = (title: string) => async (dispatch: Dispatch) => {
+    try {
+        const res:any = await todoApi.addTodolist(title)
+        dispatch(AddTodolistAC(res.data.data.item))
+    }
+    catch (e:any){
+
+    }
 }
 export const changeTodolistTitleTC = (todolistId: string, title: string) => (dispatch: Dispatch) => {
     return todoApi.changeTodolistTitle(todolistId, title)

@@ -18,13 +18,14 @@ import {
 } from "./state/todolistsReducer";
 import {
     addTaskTC,
-    changeTaskStatusAC,
+    changeTaskStatusAC, changeTaskStatusTC,
     changeTaskTitleTC,
     removeTaskTC
 } from "./state/tasksReducer";
 import {useDispatch, useSelector} from "react-redux";
-import {TaskType, TodolistType} from './api/api';
+import {TaskStatuses, TaskType, TodolistType} from './api/api';
 import {AppRootStateType} from "./state/store";
+import LinearProgress from '@material-ui/core/LinearProgress/LinearProgress';
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -36,7 +37,7 @@ export function App() {
         dispatch(getTodolists())
     }, [])
 
-    console.log('App is called')
+    console.log(<span>test</span>)
 
     const dispatch = useDispatch()
 
@@ -51,9 +52,8 @@ export function App() {
         dispatch(removeTaskTC(todolistId, id))
     }, [])
 
-    const changeStatus = useCallback((id: string, isDone: boolean, todolistId: string) => {
-        let action = changeTaskStatusAC(id, isDone, todolistId)
-        dispatch(action)
+    const changeStatus = useCallback((id: string, isDone: TaskStatuses, todolistId: string) => {
+        dispatch(changeTaskStatusTC(todolistId, id, isDone))
     }, [])
 
     const changeTaskTitle = useCallback((id: string, newTitle: string, todolistId: string) => {
@@ -90,6 +90,7 @@ export function App() {
                     <Button color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>
+            {/*<LinearProgress color="secondary" />*/}
             <Container fixed>
                 <Grid container>
                     <Grid style={{padding: '10px'}}>
@@ -116,6 +117,7 @@ export function App() {
                                             changeTaskTitle={changeTaskTitle}
                                             changeTodolistTitle={changeTodolistTitle}
                                         />
+
                                     </Paper>
                                 </Grid>
                             })
