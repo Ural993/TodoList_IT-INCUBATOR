@@ -8,13 +8,21 @@ export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 export type InitialStateType = {
     status: RequestStatusType
     error: string | null,
-    isInitialized: boolean
+    isInitialized: boolean,
+    userDate: UserDateType
+
+}
+type UserDateType= {
+    id:number, 
+    email:string, 
+    login:string
 }
 
 const initialState: InitialStateType = {
     status: 'idle',
     error: null,
-    isInitialized: false
+    isInitialized: false,
+    userDate: {} as UserDateType
 }
 
 const slice = createSlice({
@@ -29,15 +37,18 @@ const slice = createSlice({
         },
         setAppInitializedAC(state, action: PayloadAction<boolean>){
             state.isInitialized = action.payload
+        },
+        setUserDate(state, action){
+            state.userDate = action.payload
         }
     }
-
 })
 
 export const initializedAppTC = () =>  async (dispatch: Dispatch) =>{
-    const res =await authApi.me()
+    const res = await authApi.me()
     try {
         if(res.data.resultCode === 0){
+            dispatch(slice.actions.setUserDate(res.data.data))
             dispatch(setIsLoggedInAC({value:true}))
         } 
     } finally{

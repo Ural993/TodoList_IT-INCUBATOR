@@ -5,7 +5,7 @@ import { TaskType } from './api/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import Login from './components/login/Login';
-import { CircularProgress, LinearProgress } from '@material-ui/core';
+import { CircularProgress, LinearProgress, Typography } from '@material-ui/core';
 import ErrorSnackbar from './components/errorSnackbar/ErrorSnackbar';
 import { AppRootStateType } from './state/store';
 import { initializedAppTC, RequestStatusType } from './state/reducers/app-reducer';
@@ -23,6 +23,7 @@ export function App() {
     const status = useSelector<AppRootStateType, RequestStatusType>(state=> state.app.status)
     const isInitialized = useSelector<AppRootStateType, boolean>(state=> state.app.isInitialized)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state=> state.auth.isLoggedIn)
+    const login = useSelector<AppRootStateType, string>(state=> state.app.userDate.login)
     
     useEffect(() => {
       dispatch(initializedAppTC())
@@ -40,13 +41,18 @@ export function App() {
             <Layout style={{height:'100vh'}}>
                 <Header>
                 <Row justify={'space-between'}>
-                        <Col>
+                    <Col>
                         <Avatar style={{ backgroundColor: '#f56a00' }}>Todo</Avatar>
-                        </Col>  
-                        <Col>
-                            {isLoggedIn && <Button onClick={logOut}>LogOut</Button> }    
-                        </Col>
-                    </Row>   
+                    </Col>  
+                    {isLoggedIn &&<Row align='middle' gutter={10}>
+                       <Col>
+                       <Typography style={{color:'#f5f5f5'}}>Hi, {login}</Typography>
+                       </Col> 
+                      <Col>
+                       <Button onClick={logOut}>LogOut</Button> 
+                      </Col>   
+                    </Row>}
+                </Row>   
                     {status === 'loading' && <LinearProgress color='secondary' />}
                 </Header>
             <Content style={{ padding: '0 50px' }}>

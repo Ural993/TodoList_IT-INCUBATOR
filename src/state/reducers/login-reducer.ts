@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Dispatch } from "redux";
 import { authApi, LoginParamsType } from "../../api/api";
-import { setErrorAC } from "./app-reducer";
+import { initializedAppTC, setErrorAC } from "./app-reducer";
 
 type InitialStateType ={
     isLoggedIn: boolean

@@ -1,13 +1,12 @@
-import {v1} from 'uuid';
-import { TodolistType } from '../api/api';
-import { appReducer, InitialStateType, setErrorAC, setStatusAC } from './app-reducer';
+import { appReducer, InitialStateType, setErrorAC, setStatusAC } from '../reducers/app-reducer';
 
 let startState: InitialStateType
 
 beforeEach(()=>{
   startState = {
    status: 'idle',
-   error: 'null'
+   error: 'null',
+   isInitialized:false
     }
 
 })
