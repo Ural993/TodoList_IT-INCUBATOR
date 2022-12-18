@@ -33,6 +33,16 @@ export const todoApi = {
         return initial.put(`todo-lists/${todolistId}/tasks/${taskId}`, data)
     }
 }
+export type LoginParamsType = {
+    email: string,
+    password: string,
+    rememberMe: boolean
+}
+export const authApi = {
+    login:(params: LoginParamsType)=>{
+        return initial.post<ResponseType<{userId?:number}>>('auth/login', params)
+    }
+}
 
 
 

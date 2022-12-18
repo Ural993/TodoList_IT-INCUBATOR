@@ -27,7 +27,7 @@ type PropsType = {
     changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
 }
 
-export const Todolist = React.memo((props: PropsType) => {
+export const TodolistItem = React.memo((props: PropsType) => {
     console.log('Todolist is called')
     let dispatch = useDispatch()
     useEffect(()=>{

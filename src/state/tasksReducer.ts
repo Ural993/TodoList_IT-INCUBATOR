@@ -8,6 +8,7 @@ import {
 import {Dispatch} from "redux";
 import {TaskStatuses, TaskType, todoApi, UpdateTaskModelType} from "../api/api";
 import {AppRootStateType} from "./store";
+import { setErrorAC, setStatusAC } from "./app-reducer";
 
 type RemoveTaskActionType = {
     type: 'REMOVE-TASK'
@@ -100,29 +101,55 @@ export const setTasksAC = (todolistId: string, tasks: Array<TaskType>) => {
 }
 type setTasksACType = ReturnType<typeof setTasksAC>
 
-export const getTasks = (todolistId: string) => (dispatch: Dispatch) => {
-    todoApi.getTasks(todolistId)
-        .then((res) => {
-            dispatch(setTasksAC(todolistId, res.data.items))
-        })
-}
-export const addTaskTC = (todolistId: string, title: string) => (dispatch: Dispatch) => {
-    todoApi.addTask(todolistId, title)
-        .then((res) => {
-            if(res.data.resultCode ===0){
-                dispatch(addTaskAC(res.data.data.item))
+export const getTasks = (todolistId: string) =>async (dispatch: Dispatch) => {
+    dispatch(setStatusAC('loading'))
+   const res = await todoApi.getTasks(todolistId)
+   try {
+     dispatch(setTasksAC(todolistId, res.data.items))
+    dispatch(setStatusAC('succeeded'))
 
-            }
-        })
+   } catch (error:any) {
+    dispatch(setErrorAC(error.message))
+   }
 }
-export const removeTaskTC = (todolistId: string, taskId: string) => (dispatch: Dispatch) => {
-    todoApi.removeTask(todolistId, taskId)
-        .then((res) => {
-            if (res.data.resultCode === 0) {
-                dispatch(removeTaskAC(taskId, todolistId))
+
+export const addTaskTC = (todolistId: string, title: string) =>async (dispatch: Dispatch) => {
+    dispatch(setStatusAC('loading'))
+    const res = await todoApi.addTask(todolistId, title)
+    try {
+        if(res.data.resultCode ===0){
+            dispatch(addTaskAC(res.data.data.item))
+            dispatch(setStatusAC('succeeded'))
+        } else{
+            if(res.data.messages.length){
+                dispatch(setErrorAC(res.data.messages[0]))
+            } else{
+                dispatch(setErrorAC('Some error occurred!'))
             }
-        })
+        }
+    } catch (error) {
+        console.log('error in addTaskTC')
+    }  
+    finally{
+        dispatch(setStatusAC('idle'))
+    }
 }
+
+export const removeTaskTC = (todolistId: string, taskId: string) =>async (dispatch: Dispatch) => {
+    dispatch(setStatusAC('loading'))
+   const res = await todoApi.removeTask(todolistId, taskId)
+   try {
+    if (res.data.resultCode === 0) {
+        dispatch(removeTaskAC(taskId, todolistId))
+    }
+   } catch (error) {
+    console.log('error in removeTaskTC')
+   }
+   finally{
+    dispatch(setStatusAC('idle'))
+   }
+}
+
 export const changeTaskTitleTC = (todolistId: string, taskId: string, title: string) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
     let task = getState().tasks[todolistId].find(t => t.id === taskId)
     if (task) {

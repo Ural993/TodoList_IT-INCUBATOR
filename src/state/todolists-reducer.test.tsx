@@ -1,6 +1,7 @@
 
 import {v1} from 'uuid';
-import { TodolistType, FilterValuesType } from '../App';
+import { TodolistType } from '../api/api';
+import {FilterValuesType } from '../App';
 import {
   AddTodolistAC,
   ChangeTodolistFilterAC,
