@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { AppRootStateType } from '../../state/store';
-import { loginTC } from '../../state/login-reducer';
+import { loginTC } from '../../state/reducers/login-reducer';
 
 const Login = () => {
   const dispatch = useDispatch()

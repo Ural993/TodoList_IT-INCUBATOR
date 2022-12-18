@@ -1,7 +1,7 @@
-import {FilterValuesType} from "../App";
+import {FilterValuesType} from "../../App";
 import {v1} from "uuid";
 import {Dispatch} from "redux";
-import {todoApi, TodolistType} from "../api/api";
+import {todoApi, TodolistType} from "../../api/api";
 import { setErrorAC } from "./app-reducer";
 
 export type RemoveTodolistActionType = {

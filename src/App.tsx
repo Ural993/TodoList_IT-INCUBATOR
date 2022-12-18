@@ -1,17 +1,17 @@
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import './App.css';
 import Todolist from './components/Todolist';
 import { TaskType } from './api/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import Login from './components/login/Login';
-import { CircularProgress, Grid, LinearProgress } from '@material-ui/core';
+import { CircularProgress, LinearProgress } from '@material-ui/core';
 import ErrorSnackbar from './components/errorSnackbar/ErrorSnackbar';
 import { AppRootStateType } from './state/store';
-import { initializedAppTC, RequestStatusType } from './state/app-reducer';
-import { Avatar, Button, Col, Layout, Row, Typography } from 'antd';
+import { initializedAppTC, RequestStatusType } from './state/reducers/app-reducer';
+import { Avatar, Button, Col, Layout, Row } from 'antd';
 import { Content, Header } from 'antd/es/layout/layout';
-import { logoutTC } from './state/login-reducer';
+import { logoutTC } from './state/reducers/login-reducer';
 
 export type FilterValuesType = "all" | "active" | "completed";
 

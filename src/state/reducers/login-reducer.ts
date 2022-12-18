@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Dispatch } from "redux";
-import { authApi, LoginParamsType } from "../api/api";
+import { authApi, LoginParamsType } from "../../api/api";
 import { setErrorAC } from "./app-reducer";
 
 type InitialStateType ={

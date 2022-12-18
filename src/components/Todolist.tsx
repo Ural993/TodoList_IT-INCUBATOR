@@ -6,8 +6,8 @@ import { AddItemForm } from './AddItemForm';
 import { TaskStatuses } from '../api/api';
 import { FilterValuesType, TasksStateType } from '../App';
 import { AppRootStateType } from '../state/store';
-import { addTaskTC, changeTaskStatusTC, changeTaskTitleTC, removeTaskTC } from '../state/tasks-reducer';
-import { addTodolistTC, ChangeTodolistFilterAC, changeTodolistTitleTC, getTodolists, removeTodolistTC, TodolistDomainType } from '../state/todolists-reducer';
+import { addTaskTC, changeTaskStatusTC, changeTaskTitleTC, removeTaskTC } from '../state/reducers/tasks-reducer';
+import { addTodolistTC, ChangeTodolistFilterAC, changeTodolistTitleTC, getTodolists, removeTodolistTC, TodolistDomainType } from '../state/reducers/todolists-reducer';
 import { TodolistItem } from './TodolistItem';
 
 function Todolist() {

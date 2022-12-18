@@ -9,7 +9,7 @@ import {Task} from "./Task";
 import {useDispatch} from "react-redux";
 import { FilterValuesType } from '../App';
 import { TaskStatuses, TaskType } from '../api/api';
-import { getTasks } from '../state/tasks-reducer';
+import { getTasks } from '../state/reducers/tasks-reducer';
 import { AddItemForm } from './AddItemForm';
 
 
