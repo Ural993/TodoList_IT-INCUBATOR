@@ -41,18 +41,21 @@ export type LoginParamsType = {
 export const authApi = {
     login:(params: LoginParamsType)=>{
         return initial.post<ResponseType<{userId?:number}>>('auth/login', params)
+    },
+    logout:()=>{
+        return initial.delete<ResponseType>('auth/login')
+    },
+    me:()=>{
+        return initial.get<ResponseType<{id:number, email:string, login:string}>>('auth/me')
     }
 }
-
-
-
 
 // types
 export type TodolistType = {
     id: string
     title: string
-    addedDate: string
-    order: number
+    addedDate?: string
+    order?: number
 }
 export type ResponseType<D = {}> = {
     resultCode: number
@@ -78,24 +81,24 @@ export enum TaskPriorities {
 }
 
 export type TaskType = {
-    description: string
+    description?: string
     title: string
-    status: TaskStatuses
-    priority: TaskPriorities
-    startDate: string
-    deadline: string
+    status?: TaskStatuses
+    priority?: TaskPriorities
+    startDate?: string
+    deadline?: string
     id: string
     todoListId: string
-    order: number
-    addedDate: string
+    order?: number
+    addedDate?: string
 }
 export type UpdateTaskModelType = {
     title: string
-    description: string
-    status: TaskStatuses
-    priority: TaskPriorities
-    startDate: string
-    deadline: string
+    description?: string
+    status?: TaskStatuses
+    priority?: TaskPriorities
+    startDate?: string
+    deadline?: string
 }
 type GetTasksResponse = {
     error: string | null

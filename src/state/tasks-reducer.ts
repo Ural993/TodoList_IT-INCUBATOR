@@ -4,7 +4,7 @@ import {
     AddTodolistActionType,
     RemoveTodolistActionType,
     setTodolistsACType,
-} from "./todolistsReducer";
+} from "./todolists-reducer";
 import {Dispatch} from "redux";
 import {TaskStatuses, TaskType, todoApi, UpdateTaskModelType} from "../api/api";
 import {AppRootStateType} from "./store";

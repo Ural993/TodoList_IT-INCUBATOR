@@ -1,19 +1,21 @@
 import { Grid, Paper } from '@material-ui/core';
-import React, { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { AddItemForm } from '../AddItemForm';
+import { Navigate } from 'react-router-dom';
+import { AddItemForm } from './AddItemForm';
 import { TaskStatuses } from '../api/api';
 import { FilterValuesType, TasksStateType } from '../App';
 import { AppRootStateType } from '../state/store';
-import { addTaskTC, changeTaskStatusTC, changeTaskTitleTC, removeTaskTC } from '../state/tasksReducer';
-import { addTodolistTC, ChangeTodolistFilterAC, changeTodolistTitleTC, removeTodolistTC, TodolistDomainType } from '../state/todolistsReducer';
-import { TodolistItem } from '../TodolistItem';
+import { addTaskTC, changeTaskStatusTC, changeTaskTitleTC, removeTaskTC } from '../state/tasks-reducer';
+import { addTodolistTC, ChangeTodolistFilterAC, changeTodolistTitleTC, getTodolists, removeTodolistTC, TodolistDomainType } from '../state/todolists-reducer';
+import { TodolistItem } from './TodolistItem';
 
 function Todolist() {
     const dispatch = useDispatch()
 
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
 
     const addTask = useCallback((title: string, todolistId: string) => {
         dispatch(addTaskTC(todolistId, title))
@@ -47,11 +49,20 @@ function Todolist() {
     const changeTodolistTitle = useCallback((id: string, title: string) => {
         dispatch(changeTodolistTitleTC(id, title))
     }, [])
+
+    useEffect(()=>{
+        dispatch(getTodolists())
+    }, [])
+
+    if(!isLoggedIn){
+        return <Navigate to={'login'}/>
+    }
+
   return (
     <>        
         <Grid container>
     <Grid style={{padding: '10px'}}>
-        <AddItemForm addItem={Todolist}/>
+        <AddItemForm addItem={addTodolist}/>
     </Grid>
     <Grid container spacing={3}>
 

@@ -2,6 +2,7 @@ import {FilterValuesType} from "../App";
 import {v1} from "uuid";
 import {Dispatch} from "redux";
 import {todoApi, TodolistType} from "../api/api";
+import { setErrorAC } from "./app-reducer";
 
 export type RemoveTodolistActionType = {
     type: 'REMOVE-TODOLIST'
@@ -88,11 +89,11 @@ export const removeTodolistTC = (todolistId: string) => (dispatch: Dispatch) => 
 
 export const addTodolistTC = (title: string) => async (dispatch: Dispatch) => {
     try {
-        const res:any = await todoApi.addTodolist(title)
+        const res = await todoApi.addTodolist(title)
         dispatch(AddTodolistAC(res.data.data.item))
     }
     catch (e:any){
-
+        dispatch(setErrorAC(e.message))
     }
 }
 export const changeTodolistTitleTC = (todolistId: string, title: string) => (dispatch: Dispatch) => {

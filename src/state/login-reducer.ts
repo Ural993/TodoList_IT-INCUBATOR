@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Dispatch } from "redux";
-import { authApi, LoginParamsType } from "../../api/api";
+import { authApi, LoginParamsType } from "../api/api";
+import { setErrorAC } from "./app-reducer";
 
 type InitialStateType ={
     isLoggedIn: boolean
@@ -23,7 +24,7 @@ const slice = createSlice({
 
 
  export const loginReducer = slice.reducer
- const setIsLoggedInAC = slice.actions.setIsLoggedInAC
+ export const setIsLoggedInAC = slice.actions.setIsLoggedInAC
 
 
 // thunks
@@ -34,6 +35,16 @@ export const loginTC = (data: LoginParamsType)=>(dispatch: Dispatch)=>{
             dispatch(setIsLoggedInAC({value:true}))
         }
     })
+}
 
+export const logoutTC = () => async (dispatch: Dispatch) => {
+    const res = await authApi.logout()
+    try {
+        if(res.data.resultCode === 0){
+            dispatch(setIsLoggedInAC({value:false}))
+        }
+    } catch (error:any) {
+        dispatch(setErrorAC(error.massage))
+    }
 }
 

@@ -4,7 +4,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import {EditableSpan} from "./EditableSpan";
 import IconButton from "@material-ui/core/IconButton";
 import {Delete} from "@material-ui/icons";
-import {TaskStatuses, TaskType} from "./api/api";
+import {TaskStatuses, TaskType} from "../api/api";
 
 type TaskPropsType = {
     removeTask: (taskId: string, todolistId: string) => void

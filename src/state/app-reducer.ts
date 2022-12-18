@@ -1,28 +1,51 @@
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { Dispatch } from "redux"
+import { authApi } from "../api/api"
+import { setIsLoggedInAC } from "./login-reducer"
+
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 export type InitialStateType = {
     status: RequestStatusType
-    error: string | null
+    error: string | null,
+    isInitialized: boolean
 }
 
 const initialState: InitialStateType = {
     status: 'idle',
-    error: null
+    error: null,
+    isInitialized: false
 }
 
-export const appReducer = (state: InitialStateType  = initialState, action: ActionsType):InitialStateType => {
-    switch (action.type) {
-        case 'APP/SET-STATUS':
-            return {...state, status: action.status}
-        case 'APP/SET-ERROR':
-            return {...state, error: action.error}
-        default :
-            return state
+const slice = createSlice({
+    name: 'app',
+    initialState: initialState,
+    reducers:{
+        setStatusAC(state, action:PayloadAction<RequestStatusType>){
+            state.status = action.payload
+        },
+        setErrorAC(state, action:PayloadAction<string|null>){
+            state.error = action.payload
+        },
+        setAppInitializedAC(state, action: PayloadAction<boolean>){
+            state.isInitialized = action.payload
+        }
     }
 
+})
+
+export const initializedAppTC = () =>  async (dispatch: Dispatch) =>{
+    const res =await authApi.me()
+    try {
+        if(res.data.resultCode === 0){
+            dispatch(setIsLoggedInAC({value:true}))
+        } 
+    } finally{
+        dispatch( slice.actions.setAppInitializedAC(true))
+    }
 }
 
-export const setStatusAC =(status:RequestStatusType)=>({type:'APP/SET-STATUS', status } as const)
-export const setErrorAC =(error:string|null)=>({type:'APP/SET-ERROR', error } as const)
-
-type ActionsType = ReturnType<typeof setStatusAC> | ReturnType<typeof setErrorAC>
+export const appReducer = slice.reducer
+export const setStatusAC =slice.actions.setStatusAC
+export const setErrorAC =slice.actions.setErrorAC
+export const setAppInitializedAC =slice.actions.setAppInitializedAC

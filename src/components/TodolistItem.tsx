@@ -1,6 +1,4 @@
 import React, {useCallback, useEffect} from 'react';
-import {FilterValuesType} from './App';
-import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
 import IconButton from '@material-ui/core/IconButton';
 import {Delete} from '@material-ui/icons';
@@ -9,8 +7,10 @@ import List from '@material-ui/core/List/List';
 import Typography from "@material-ui/core/Typography";
 import {Task} from "./Task";
 import {useDispatch} from "react-redux";
-import {getTasks} from "./state/tasksReducer";
-import {TaskStatuses, TaskType} from './api/api';
+import { FilterValuesType } from '../App';
+import { TaskStatuses, TaskType } from '../api/api';
+import { getTasks } from '../state/tasks-reducer';
+import { AddItemForm } from './AddItemForm';
 
 
 type PropsType = {
