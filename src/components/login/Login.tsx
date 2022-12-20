@@ -1,9 +1,9 @@
-import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { AppRootStateType } from "../../state/store";
 import { loginTC } from "../../state/reducers/login-reducer";
-import { Button, Checkbox, Input, Row } from "antd";
+import { Button, Checkbox, Col, Form, Input, Row } from "antd";
+import { LoginParamsType } from "../../api/api";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -11,50 +11,49 @@ const Login = () => {
     (state) => state.auth.isLoggedIn
   );
 
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-      rememberMe: false,
-    },
-    onSubmit: (values) => {
-      dispatch(loginTC(values));
-    },
-  });
-
-  const { values, errors, touched, handleChange, handleBlur, handleSubmit } =
-    formik;
+  const onFinish = (values: LoginParamsType) => {
+    dispatch(loginTC(values));
+  };
 
   if (isLoggedIn) {
     return <Navigate to="/" />;
   }
 
   return (
-    <Row justify="center" align="middle">
-      <form onSubmit={handleSubmit}>
-        <Input
-          type="email"
-          name="email"
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.email}
-        />
-        {errors.email && touched.email && errors.email}
-        <Input.Password
-          type="password"
-          name="password"
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.password}
-        />
-        {errors.password && touched.password && errors.password}
+    <Row justify="space-around" align="middle" style={{ height: "100%" }}>
+      <Col span={6}>
+        <Form name="normal_login" onFinish={onFinish} wrapperCol={{ span: 24 }}>
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: "Please input your email!" }]}
+          >
+            <Input type="email" />
+          </Form.Item>
 
-        <Checkbox onChange={handleChange}>Remember me</Checkbox>
-
-        <Button htmlType="submit" type="primary">
-          Login
-        </Button>
-      </form>
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: "Please input your password!" }]}
+          >
+            <Input.Password type="password" />
+          </Form.Item>
+          <Row>
+            <Col span={12}>
+              <Form.Item name="rememberMe">
+                <Checkbox>Remember me</Checkbox>
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item >
+                <Button htmlType="submit" type="primary" style={{width:'100%'}}>
+                  Login
+                </Button>
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
+      </Col>
     </Row>
   );
 };
