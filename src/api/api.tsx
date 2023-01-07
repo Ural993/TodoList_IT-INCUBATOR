@@ -1,21 +1,22 @@
-import axios from "axios";
+import axios from 'axios';
 
 const initial = axios.create({
-  baseURL: "https://social-network.samuraijs.com/api/1.1/",
+  baseURL: 'https://social-network.samuraijs.com/api/1.1/',
   withCredentials: true,
   headers: {
-    "API-KEY": "fe88c94b-7e3d-4776-912d-349e13ec1b3a",
+    'API-KEY': 'fe88c94b-7e3d-4776-912d-349e13ec1b3a',
   },
 });
+
 export const todoApi = {
   getTodolists: () => {
-    return initial.get("todo-lists");
+    return initial.get('todo-lists');
   },
   removeTodolist: (todolistId: string) => {
     return initial.delete(`todo-lists/${todolistId}`);
   },
   addTodolist: (title: string) => {
-    return initial.post("todo-lists", { title });
+    return initial.post('todo-lists', { title });
   },
   changeTodolistTitle: (todolistId: string, title: string) => {
     return initial.put(`todo-lists/${todolistId}`, { title });
@@ -27,13 +28,9 @@ export const todoApi = {
     return initial.delete(`todo-lists/${todolistId}/tasks/${taskId}`);
   },
   addTask: (todolistId: string, title: string) => {
-    return initial.post(`todo-lists/${todolistId}/tasks`, { title: title });
+    return initial.post(`todo-lists/${todolistId}/tasks`, { title });
   },
-  changeTask: (
-    todolistId: string,
-    taskId: string,
-    data: UpdateTaskModelType
-  ) => {
+  changeTask: (todolistId: string, taskId: string, data: UpdateTaskModelType) => {
     return initial.put(`todo-lists/${todolistId}/tasks/${taskId}`, data);
   },
 };
@@ -44,18 +41,15 @@ export type LoginParamsType = {
 };
 export const authApi = {
   login: (params: LoginParamsType) => {
-    return initial.post<ResponseType<{ userId?: number }>>(
-      "auth/login",
-      params
-    );
+    return initial.post<ResponseType<{ userId?: number }>>('auth/login', params);
   },
   logout: () => {
-    return initial.delete<ResponseType>("auth/login");
+    return initial.delete<ResponseType>('auth/login');
   },
   me: () => {
-    return initial.get<
-      ResponseType<{ id: number; email: string; login: string }>
-    >("auth/me");
+    return initial.get<ResponseType<{ id: number; email: string; login: string }>>(
+      'auth/me',
+    );
   },
 };
 
@@ -74,18 +68,18 @@ export type ResponseType<D = {}> = {
 };
 
 export enum TaskStatuses {
-  New = 0,
-  InProgress = 1,
-  Completed = 2,
-  Draft = 3,
+  New = '0',
+  InProgress = '1',
+  Completed = '2',
+  Draft = '3',
 }
 
 export enum TaskPriorities {
-  Low = 0,
-  Middle = 1,
-  Hi = 2,
-  Urgently = 3,
-  Later = 4,
+  Low = '0',
+  Middle = '1',
+  Hi = '2',
+  Urgently = '3',
+  Later = '4',
 }
 
 export type TaskType = {
@@ -108,8 +102,8 @@ export type UpdateTaskModelType = {
   startDate?: string;
   deadline?: string;
 };
-type GetTasksResponse = {
-  error: string | null;
-  totalCount: number;
-  items: TaskType[];
-};
+// type GetTasksResponse = {
+//   error: string | null;
+//   totalCount: number;
+//   items: TaskType[];
+// };

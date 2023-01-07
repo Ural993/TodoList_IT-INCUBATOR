@@ -1,9 +1,11 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Dispatch } from "redux";
-import { authApi } from "../../api/api";
-import { setIsLoggedInAC } from "./login-reducer";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Dispatch } from 'redux';
 
-export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed";
+import { authApi } from '../../api/api';
+
+import { setIsLoggedInAC } from './login-reducer';
+
+export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';
 
 export type InitialStateType = {
   status: RequestStatusType;
@@ -18,15 +20,15 @@ type UserDateType = {
 };
 
 const initialState: InitialStateType = {
-  status: "idle",
+  status: 'idle',
   error: null,
   isInitialized: false,
   userDate: {} as UserDateType,
 };
 
 const slice = createSlice({
-  name: "app",
-  initialState: initialState,
+  name: 'app',
+  initialState,
   reducers: {
     setStatusAC(state, action: PayloadAction<RequestStatusType>) {
       state.status = action.payload;
@@ -45,6 +47,7 @@ const slice = createSlice({
 
 export const initializedAppTC = () => async (dispatch: Dispatch) => {
   const res = await authApi.me();
+
   try {
     if (res.data.resultCode === 0) {
       dispatch(slice.actions.setUserDate(res.data.data));
@@ -56,6 +59,6 @@ export const initializedAppTC = () => async (dispatch: Dispatch) => {
 };
 
 export const appReducer = slice.reducer;
-export const setStatusAC = slice.actions.setStatusAC;
-export const setErrorAC = slice.actions.setErrorAC;
-export const setAppInitializedAC = slice.actions.setAppInitializedAC;
+export const { setStatusAC } = slice.actions;
+export const { setErrorAC } = slice.actions;
+export const { setAppInitializedAC } = slice.actions;

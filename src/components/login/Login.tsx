@@ -1,17 +1,20 @@
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
-import { AppRootStateType } from "../../state/store";
-import { loginTC } from "../../state/reducers/login-reducer";
-import { Button, Checkbox, Col, Form, Input, Row } from "antd";
-import { LoginParamsType } from "../../api/api";
+import { ReactElement } from 'react';
 
-const Login = () => {
+import { Button, Checkbox, Col, Form, Input, Row } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+
+import { LoginParamsType } from '../../api/api';
+import { loginTC } from '../../state/reducers/login-reducer';
+import { AppRootStateType } from '../../state/store';
+
+const Login = (): ReactElement => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector<AppRootStateType, boolean>(
-    (state) => state.auth.isLoggedIn
+    state => state.auth.isLoggedIn,
   );
 
-  const onFinish = (values: LoginParamsType) => {
+  const onFinish = (values: LoginParamsType): void => {
     dispatch(loginTC(values));
   };
 
@@ -20,13 +23,13 @@ const Login = () => {
   }
 
   return (
-    <Row justify="space-around" align="middle" style={{ height: "100%" }}>
+    <Row justify="space-around" align="middle" style={{ height: '100%' }}>
       <Col span={6}>
         <Form name="normal_login" onFinish={onFinish} wrapperCol={{ span: 24 }}>
           <Form.Item
             label="Email"
             name="email"
-            rules={[{ required: true, message: "Please input your email!" }]}
+            rules={[{ required: true, message: 'Please input your email!' }]}
           >
             <Input type="email" />
           </Form.Item>
@@ -34,7 +37,7 @@ const Login = () => {
           <Form.Item
             label="Password"
             name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
+            rules={[{ required: true, message: 'Please input your password!' }]}
           >
             <Input.Password type="password" />
           </Form.Item>
@@ -45,8 +48,8 @@ const Login = () => {
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item >
-                <Button htmlType="submit" type="primary" style={{width:'100%'}}>
+              <Form.Item>
+                <Button htmlType="submit" type="primary" style={{ width: '100%' }}>
                   Login
                 </Button>
               </Form.Item>
