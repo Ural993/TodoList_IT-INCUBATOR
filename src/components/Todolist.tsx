@@ -14,7 +14,7 @@ import {
 } from '../state/reducers/tasks-reducer';
 import {
   addTodolistTC,
-  ChangeTodolistFilterAC,
+  changeTodolistFilterAC,
   changeTodolistTitleTC,
   getTodolists,
   removeTodolistTC,
@@ -66,8 +66,8 @@ const Todolist = (): ReactElement => {
     dispatch(removeTodolistTC(id));
   }, []);
 
-  const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
-    const action = ChangeTodolistFilterAC(value, todolistId);
+  const changeFilter = useCallback((filter: FilterValuesType, todolistId: string) => {
+    const action = changeTodolistFilterAC({ filter, todolistId });
 
     dispatch(action);
   }, []);
