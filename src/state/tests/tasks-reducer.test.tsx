@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 import { TasksStateType } from '../../App';
 import {
   tasksReducer,
@@ -6,7 +7,7 @@ import {
   changeTaskStatusAC,
   changeTaskTitleAC,
 } from '../reducers/tasks-reducer';
-import { AddTodolistAC } from '../reducers/todolists-reducer';
+import { addTodolistAC } from '../reducers/todolists-reducer';
 
 test('correct task should be deleted from correct array', () => {
   const startState: TasksStateType = {
@@ -22,7 +23,7 @@ test('correct task should be deleted from correct array', () => {
     ],
   };
 
-  const action = removeTaskAC('2', 'todolistId2');
+  const action = removeTaskAC({ taskId: '2', todolistId: 'todolistId2' });
 
   const endState = tasksReducer(startState, action);
 
@@ -77,7 +78,11 @@ test('status of specified task should be changed', () => {
     ],
   };
 
-  const action = changeTaskStatusAC('2', 1, 'todolistId2');
+  const action = changeTaskStatusAC({
+    taskId: '2',
+    status: 1,
+    todolistId: 'todolistId2',
+  });
 
   const endState = tasksReducer(startState, action);
 
@@ -99,7 +104,11 @@ test('title of specified task should be changed', () => {
     ],
   };
 
-  const action = changeTaskTitleAC('2', 'juce', 'todolistId2');
+  const action = changeTaskTitleAC({
+    taskId: '2',
+    title: 'juce',
+    todolistId: 'todolistId2',
+  });
 
   const endState = tasksReducer(startState, action);
 
@@ -121,7 +130,7 @@ test('new array should be added when new todolist is added', () => {
     ],
   };
 
-  const action = AddTodolistAC({ id: '4', title: 'new todolist' });
+  const action = addTodolistAC({ id: '4', title: 'new todolist' });
 
   const endState = tasksReducer(startState, action);
 

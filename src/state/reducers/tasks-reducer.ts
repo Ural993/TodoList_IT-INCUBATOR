@@ -65,8 +65,13 @@ const slice = createSlice({
 
 export const tasksReducer = slice.reducer;
 
-const { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, setTasksAC } =
-  slice.actions;
+export const {
+  addTaskAC,
+  changeTaskStatusAC,
+  changeTaskTitleAC,
+  removeTaskAC,
+  setTasksAC,
+} = slice.actions;
 
 export const getTasks = (todolistId: string) => async (dispatch: Dispatch) => {
   dispatch(setStatusAC('loading'));

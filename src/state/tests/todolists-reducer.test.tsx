@@ -1,15 +1,14 @@
 import { v1 } from 'uuid';
 
-import { FilterValuesType } from '../App';
-
+import { FilterValuesType } from '../../App';
 import {
-  AddTodolistAC,
-  ChangeTodolistFilterAC,
-  ChangeTodolistTitleAC,
-  RemoveTodolistAC,
+  addTodolistAC,
+  changeTodolistFilterAC,
+  changeTodolistTitleAC,
+  removeTodolistAC,
   TodolistDomainType,
   todolistsReducer,
-} from './todolists-reducer';
+} from '../reducers/todolists-reducer';
 
 test('correct todolist should be removed', () => {
   const todolistId1 = v1();
@@ -20,7 +19,10 @@ test('correct todolist should be removed', () => {
     { id: todolistId2, title: 'What to buy', filter: 'all' },
   ];
 
-  const endState = todolistsReducer(startState, RemoveTodolistAC(todolistId1));
+  const endState = todolistsReducer(
+    startState,
+    removeTodolistAC({ todolistId: todolistId1 }),
+  );
 
   expect(endState.length).toBe(1);
   expect(endState[0].id).toBe(todolistId2);
@@ -38,9 +40,10 @@ test('correct todolist should be added', () => {
 
   const endState = todolistsReducer(
     startState,
-    AddTodolistAC({ title: newTodolistTitle, id: v1() }),
+    addTodolistAC({ title: newTodolistTitle, id: v1() }),
   );
 
+  // eslint-disable-next-line no-magic-numbers
   expect(endState.length).toBe(3);
   expect(endState[0].title).toBe(newTodolistTitle);
 });
@@ -57,7 +60,7 @@ test('correct todolist should change its name', () => {
 
   const endState = todolistsReducer(
     startState,
-    ChangeTodolistTitleAC(newTodolistTitle, todolistId2),
+    changeTodolistTitleAC({ title: newTodolistTitle, todolistId: todolistId2 }),
   );
 
   expect(endState[0].title).toBe('What to learn');
@@ -77,7 +80,7 @@ test('correct filter of todolist should be changed', () => {
 
   const endState = todolistsReducer(
     startState,
-    ChangeTodolistFilterAC(newFilter, todolistId2),
+    changeTodolistFilterAC({ filter: newFilter, todolistId: todolistId2 }),
   );
 
   expect(endState[0].filter).toBe('all');

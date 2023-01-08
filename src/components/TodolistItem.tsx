@@ -11,9 +11,9 @@ import { TaskStatuses, TaskType } from '../api/api';
 import { FilterValuesType } from '../App';
 import { getTasks } from '../state/reducers/tasks-reducer';
 
-import { AddItemForm } from './AddItemForm';
-import { EditableSpan } from './EditableSpan';
-import { Task } from './Task';
+import { AddItemForm } from './addItemForm/AddItemForm';
+import { EditableSpan } from './editableSpan/EditableSpan';
+import { Task } from './task/Task';
 
 type PropsType = {
   id: string;
@@ -70,10 +70,10 @@ export const TodolistItem = React.memo((props: PropsType) => {
   let tasksForTodolist = props.tasks;
 
   if (props.filter === 'active') {
-    tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.New);
+    tasksForTodolist = props.tasks.filter(task => task.status === TaskStatuses.New);
   }
   if (props.filter === 'completed') {
-    tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed);
+    tasksForTodolist = props.tasks.filter(task => task.status === TaskStatuses.Completed);
   }
 
   return (
@@ -86,14 +86,14 @@ export const TodolistItem = React.memo((props: PropsType) => {
       </Typography>
       <AddItemForm addItem={addTask} />
       <List>
-        {tasksForTodolist.map(t => (
+        {tasksForTodolist.map(task => (
           <Task
             changeTaskTitle={props.changeTaskTitle}
             changeTaskStatus={props.changeTaskStatus}
-            id={props.id}
+            todolistId={props.id}
             removeTask={props.removeTask}
-            task={t}
-            key={t.id}
+            task={task}
+            key={task.id}
           />
         ))}
       </List>

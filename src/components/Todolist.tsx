@@ -22,7 +22,7 @@ import {
 } from '../state/reducers/todolists-reducer';
 import { AppRootStateType } from '../state/store';
 
-import { AddItemForm } from './AddItemForm';
+import { AddItemForm } from './addItemForm/AddItemForm';
 import { TodolistItem } from './TodolistItem';
 
 const Todolist = (): ReactElement => {

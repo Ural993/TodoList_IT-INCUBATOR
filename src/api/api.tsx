@@ -68,18 +68,23 @@ export type ResponseType<D = {}> = {
 };
 
 export enum TaskStatuses {
-  New = '0',
-  InProgress = '1',
-  Completed = '2',
-  Draft = '3',
+  New = 0,
+  InProgress = 1,
+  // eslint-disable-next-line no-magic-numbers
+  Completed = 2,
+  // eslint-disable-next-line no-magic-numbers
+  Draft = 3,
 }
 
 export enum TaskPriorities {
-  Low = '0',
-  Middle = '1',
-  Hi = '2',
-  Urgently = '3',
-  Later = '4',
+  Low = 0,
+  Middle = 1,
+  // eslint-disable-next-line no-magic-numbers
+  Hi = 2,
+  // eslint-disable-next-line no-magic-numbers
+  Urgently = 3,
+  // eslint-disable-next-line no-magic-numbers
+  Later = 4,
 }
 
 export type TaskType = {

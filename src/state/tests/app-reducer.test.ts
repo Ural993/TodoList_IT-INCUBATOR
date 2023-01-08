@@ -12,6 +12,7 @@ beforeEach(() => {
     status: 'idle',
     error: 'null',
     isInitialized: false,
+    userDate: { email: '', login: '', id: 12 },
   };
 });
 
