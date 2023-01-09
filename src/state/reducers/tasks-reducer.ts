@@ -1,22 +1,34 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Dispatch } from 'redux';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Dispatch } from "redux";
 
-import { TaskStatuses, TaskType, todoApi, UpdateTaskModelType } from '../../api/api';
-import { TasksStateType } from '../../App';
-import { AppRootStateType } from '../store';
+import {
+  TaskStatuses,
+  TaskType,
+  todoApi,
+  UpdateTaskModelType,
+} from "../../api/api";
+import { TasksStateType } from "../../App";
+import { AppRootStateType } from "../store";
 
-import { setErrorAC, setStatusAC } from './app-reducer';
-import { addTodolistAC, removeTodolistAC, setTodolistsAC } from './todolists-reducer';
+import { setErrorAC, setStatusAC } from "./app-reducer";
+import {
+  addTodolistAC,
+  removeTodolistAC,
+  setTodolistsAC,
+} from "./todolists-reducer";
 
 const initialState: TasksStateType = {};
 
 const slice = createSlice({
-  name: 'tasks',
+  name: "tasks",
   initialState,
   reducers: {
-    removeTaskAC(state, action: PayloadAction<{ taskId: string; todolistId: string }>) {
+    removeTaskAC(
+      state,
+      action: PayloadAction<{ taskId: string; todolistId: string }>
+    ) {
       const index = state[action.payload.todolistId].findIndex(
-        task => task.id === action.payload.taskId,
+        (task) => task.id === action.payload.taskId
       );
 
       state[action.payload.todolistId].splice(index, 1);
@@ -26,29 +38,40 @@ const slice = createSlice({
     },
     changeTaskStatusAC(
       state,
-      action: PayloadAction<{ taskId: string; status: TaskStatuses; todolistId: string }>,
+      action: PayloadAction<{
+        taskId: string;
+        status: TaskStatuses;
+        todolistId: string;
+      }>
     ) {
       const index = state[action.payload.todolistId].findIndex(
-        task => task.id === action.payload.taskId,
+        (task) => task.id === action.payload.taskId
       );
 
       state[action.payload.todolistId][index].status = action.payload.status;
     },
     changeTaskTitleAC(
       state,
-      action: PayloadAction<{ taskId: string; title: string; todolistId: string }>,
+      action: PayloadAction<{
+        taskId: string;
+        title: string;
+        todolistId: string;
+      }>
     ) {
       const index = state[action.payload.todolistId].findIndex(
-        task => task.id === action.payload.taskId,
+        (task) => task.id === action.payload.taskId
       );
 
       state[action.payload.todolistId][index].title = action.payload.title;
     },
-    setTasksAC(state, action: PayloadAction<{ todolistId: string; tasks: TaskType[] }>) {
+    setTasksAC(
+      state,
+      action: PayloadAction<{ todolistId: string; tasks: TaskType[] }>
+    ) {
       state[action.payload.todolistId].push(...action.payload.tasks);
     },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder.addCase(addTodolistAC, (state, action) => {
       state[action.payload.id] = [];
     });
@@ -56,7 +79,7 @@ const slice = createSlice({
       delete state[action.payload.todolistId];
     });
     builder.addCase(setTodolistsAC, (state, action) => {
-      action.payload.forEach(todolist => {
+      action.payload.forEach((todolist) => {
         state[todolist.id] = [];
       });
     });
@@ -74,12 +97,12 @@ export const {
 } = slice.actions;
 
 export const getTasks = (todolistId: string) => async (dispatch: Dispatch) => {
-  dispatch(setStatusAC('loading'));
+  dispatch(setStatusAC("loading"));
   const res = await todoApi.getTasks(todolistId);
 
   try {
     dispatch(setTasksAC({ todolistId, tasks: res.data.items }));
-    dispatch(setStatusAC('succeeded'));
+    dispatch(setStatusAC("succeeded"));
   } catch (error: any) {
     dispatch(setErrorAC(error.message));
   }
@@ -87,28 +110,28 @@ export const getTasks = (todolistId: string) => async (dispatch: Dispatch) => {
 
 export const addTaskTC =
   (todolistId: string, title: string) => async (dispatch: Dispatch) => {
-    dispatch(setStatusAC('loading'));
+    dispatch(setStatusAC("loading"));
     const res = await todoApi.addTask(todolistId, title);
 
     try {
       if (res.data.resultCode === 0) {
         dispatch(addTaskAC(res.data.data.item));
-        dispatch(setStatusAC('succeeded'));
+        dispatch(setStatusAC("succeeded"));
       } else if (res.data.messages.length) {
         dispatch(setErrorAC(res.data.messages[0]));
       } else {
-        dispatch(setErrorAC('Some error occurred!'));
+        dispatch(setErrorAC("Some error occurred!"));
       }
     } catch (error) {
-      console.log('error in addTaskTC');
+      console.log("error in addTaskTC");
     } finally {
-      dispatch(setStatusAC('idle'));
+      dispatch(setStatusAC("idle"));
     }
   };
 
 export const removeTaskTC =
   (todolistId: string, taskId: string) => async (dispatch: Dispatch) => {
-    dispatch(setStatusAC('loading'));
+    dispatch(setStatusAC("loading"));
     const res = await todoApi.removeTask(todolistId, taskId);
 
     try {
@@ -116,16 +139,16 @@ export const removeTaskTC =
         dispatch(removeTaskAC({ taskId, todolistId }));
       }
     } catch (error) {
-      console.log('error in removeTaskTC');
+      console.log("error in removeTaskTC");
     } finally {
-      dispatch(setStatusAC('idle'));
+      dispatch(setStatusAC("idle"));
     }
   };
 
 export const changeTaskTitleTC =
   (todolistId: string, taskId: string, title: string) =>
   (dispatch: Dispatch, getState: () => AppRootStateType) => {
-    const task = getState().tasks[todolistId].find(t => t.id === taskId);
+    const task = getState().tasks[todolistId].find((t) => t.id === taskId);
 
     if (task) {
       const data: UpdateTaskModelType = {
@@ -137,7 +160,7 @@ export const changeTaskTitleTC =
         deadline: task.deadline,
       };
 
-      todoApi.changeTask(todolistId, taskId, data).then(res => {
+      todoApi.changeTask(todolistId, taskId, data).then((res) => {
         const responseStatusCode = 200;
 
         if (res.status === responseStatusCode) {
@@ -150,7 +173,7 @@ export const changeTaskTitleTC =
 export const changeTaskStatusTC =
   (todolistId: string, taskId: string, status: TaskStatuses) =>
   (dispatch: Dispatch, getState: () => AppRootStateType) => {
-    const task = getState().tasks[todolistId].find(t => t.id === taskId);
+    const task = getState().tasks[todolistId].find((t) => t.id === taskId);
 
     if (task) {
       const data: UpdateTaskModelType = {
@@ -162,7 +185,7 @@ export const changeTaskStatusTC =
         deadline: task.deadline,
       };
 
-      todoApi.changeTask(todolistId, taskId, data).then(res => {
+      todoApi.changeTask(todolistId, taskId, data).then((res) => {
         const responseStatusCode = 200;
 
         if (res.status === responseStatusCode) {

@@ -1,16 +1,20 @@
-import React, { ChangeEvent, useCallback } from 'react';
+import React, { ChangeEvent, useCallback } from "react";
 
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import ListItem from '@material-ui/core/ListItem';
-import { Delete } from '@material-ui/icons';
+import Checkbox from "@mui/material/Checkbox";
+import IconButton from "@mui/material/IconButton";
+import ListItem from "@mui/material/ListItem";
 
-import { TaskStatuses, TaskType } from '../../api/api';
-import { EditableSpan } from '../editableSpan/EditableSpan';
+import { TaskStatuses, TaskType } from "../../api/api";
+import { EditableSpan } from "../editableSpan/EditableSpan";
+import { Delete } from "@mui/icons-material";
 
 type TaskPropsType = {
   removeTask: (taskId: string, todolistId: string) => void;
-  changeTaskStatus: (taskId: string, status: TaskStatuses, todolistId: string) => void;
+  changeTaskStatus: (
+    taskId: string,
+    status: TaskStatuses,
+    todolistId: string
+  ) => void;
   changeTaskTitle: (taskId: string, title: string, todolistId: string) => void;
   task: TaskType;
   todolistId: string;
@@ -24,28 +28,32 @@ export const Task = React.memo((props: TaskPropsType) => {
     props.changeTaskStatus(
       props.task.id,
       newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New,
-      props.todolistId,
+      props.todolistId
     );
   };
   const onTitleChange = useCallback(
     (newValue: string) => {
       props.changeTaskTitle(props.task.id, newValue, props.todolistId);
     },
-    [props.changeTaskTitle, props.task.id, props.todolistId],
+    [props.changeTaskTitle, props.task.id, props.todolistId]
   );
 
   return (
     <ListItem
       divider
       key={props.task.id}
-      className={props.task.status === TaskStatuses.Completed ? 'is-done' : ''}
+      className={props.task.status === TaskStatuses.Completed ? "is-done" : ""}
     >
       <Checkbox
         onChange={onCheckboxChange}
         checked={props.task.status === TaskStatuses.Completed}
       />
       <EditableSpan value={props.task.title} onChange={onTitleChange} />
-      <IconButton onClick={onDeleteButtonClick} aria-label="delete" size="small">
+      <IconButton
+        onClick={onDeleteButtonClick}
+        aria-label="delete"
+        size="small"
+      >
         <Delete fontSize="inherit" />
       </IconButton>
     </ListItem>
