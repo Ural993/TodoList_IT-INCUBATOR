@@ -1,27 +1,25 @@
-import { AlertProps, Snackbar } from "@mui/material";
-import MuiAlert from "@mui/material/Alert";
-import React, { ReactElement } from "react";
+import React, { ReactElement } from 'react';
 
-import { useDispatch, useSelector } from "react-redux";
+import { AlertProps, Snackbar } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { setErrorAC } from "../../state/reducers/app-reducer";
-import { AppRootStateType } from "../../state/store";
+import { setErrorAC } from '../../state/reducers/app-reducer';
+import { AppRootStateType } from '../../state/store';
 
 const Alert = (props: AlertProps): ReactElement => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 };
 
 const ErrorSnackbar = (): ReactElement => {
-  const error = useSelector<AppRootStateType, string | null>(
-    (state) => state.app.error
-  );
+  const error = useSelector<AppRootStateType, string | null>(state => state.app.error);
   const dispatch = useDispatch();
 
   const handleClose = (
     event?: Event | React.SyntheticEvent<any, Event>,
-    reason?: string
+    reason?: string,
   ): void => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
     dispatch(setErrorAC(null));

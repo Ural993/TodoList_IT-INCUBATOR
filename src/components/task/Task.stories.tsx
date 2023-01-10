@@ -25,7 +25,7 @@ export const TaskBaseExample = (props: any): ReactElement => {
         todolistId="todolistId1"
       />
       <Task
-        task={{ id: 'taskId2', title: 'CSS', status: 2 }}
+        task={{ id: 'taskId2', title: 'CSS', status: 1 }}
         changeTaskTitle={changeTaskTitleСallback}
         changeTaskStatus={changeTaskStatusСallback}
         removeTask={removeTaskСallback}
