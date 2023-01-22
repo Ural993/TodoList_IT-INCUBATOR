@@ -1,5 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Dispatch } from 'redux';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { authApi } from '../../api/api';
 
@@ -26,6 +25,22 @@ const initialState: InitialStateType = {
   userDate: {} as UserDateType,
 };
 
+export const initializedAppTC = createAsyncThunk(
+  'app/initializedAppTC',
+  async (_, thunkApI) => {
+    const res = await authApi.me();
+
+    try {
+      if (res.data.resultCode === 0) {
+        thunkApI.dispatch(slice.actions.setUserDate(res.data.data));
+        thunkApI.dispatch(setIsLoggedInAC({ value: true }));
+      }
+    } finally {
+      thunkApI.dispatch(slice.actions.setAppInitializedAC(true));
+    }
+  },
+);
+
 const slice = createSlice({
   name: 'app',
   initialState,
@@ -45,20 +60,18 @@ const slice = createSlice({
   },
 });
 
-export const initializedAppTC = () => async (dispatch: Dispatch) => {
-  const res = await authApi.me();
+// export const initializedAppTC = () => async (dispatch: Dispatch) => {
+//   const res = await authApi.me();
 
-  try {
-    if (res.data.resultCode === 0) {
-      dispatch(slice.actions.setUserDate(res.data.data));
-      dispatch(setIsLoggedInAC({ value: true }));
-    }
-  } finally {
-    dispatch(slice.actions.setAppInitializedAC(true));
-  }
-};
+//   try {
+//     if (res.data.resultCode === 0) {
+//       dispatch(slice.actions.setUserDate(res.data.data));
+//       dispatch(setIsLoggedInAC({ value: true }));
+//     }
+//   } finally {
+//     dispatch(slice.actions.setAppInitializedAC(true));
+//   }
+// };
 
 export const appReducer = slice.reducer;
-export const { setStatusAC } = slice.actions;
-export const { setErrorAC } = slice.actions;
-export const { setAppInitializedAC } = slice.actions;
+export const { setErrorAC, setStatusAC, setAppInitializedAC } = slice.actions;

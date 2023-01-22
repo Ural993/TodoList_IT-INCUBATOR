@@ -37,11 +37,11 @@ const Todolist = (): ReactElement => {
   );
 
   const addTask = useCallback((title: string, todolistId: string) => {
-    dispatch<any>(addTaskTC(todolistId, title));
+    dispatch<any>(addTaskTC({ todolistId, title }));
   }, []);
 
   const removeTask = useCallback((id: string, todolistId: string) => {
-    dispatch<any>(removeTaskTC(todolistId, id));
+    dispatch<any>(removeTaskTC({ todolistId, taskId: id }));
   }, []);
 
   const changeStatus = useCallback(

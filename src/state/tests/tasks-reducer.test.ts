@@ -2,10 +2,10 @@
 import { TasksStateType } from '../../App';
 import {
   tasksReducer,
-  removeTaskAC,
   addTaskAC,
   changeTaskStatusAC,
   changeTaskTitleAC,
+  removeTaskTC,
 } from '../reducers/tasks-reducer';
 import { addTodolistAC } from '../reducers/todolists-reducer';
 
@@ -23,7 +23,11 @@ test('correct task should be deleted from correct array', () => {
     ],
   };
 
-  const action = removeTaskAC({ taskId: '2', todolistId: 'todolistId2' });
+  const action = removeTaskTC.fulfilled(
+    { taskId: '2', todolistId: 'todolistId2' },
+    'requestId',
+    { taskId: '2', todolistId: 'todolistId2' },
+  );
 
   const endState = tasksReducer(startState, action);
 
