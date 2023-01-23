@@ -51,7 +51,8 @@
     "storybook": "start-storybook -p 9009",
     "build-storybook": "build-storybook -s public",
     "test:integration": "start-server-and-test storybook http-get://localhost:9009 jest:integration",
-    "chromatic": "npx chromatic --project-token=71fe37f664ad"
+    "chromatic": "npx chromatic --project-token=71fe37f664ad",
+    "lint": "eslint . --ext .ts"
   },
   "browserslist": {
     "production": [
