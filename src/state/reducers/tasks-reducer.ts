@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Dispatch } from 'redux';
 
-import { TaskStatuses, TaskType, todoApi, UpdateTaskModelType } from '../../api/api';
+import { TaskStatuses, todoApi, UpdateTaskModelType } from '../../api/api';
 import { TasksStateType } from '../../App';
 import { AppRootStateType } from '../store';
 
@@ -14,9 +14,6 @@ const slice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
-    addTaskAC(state, action: PayloadAction<TaskType>) {
-      state[action.payload.todoListId].unshift(action.payload);
-    },
     changeTaskStatusAC(
       state,
       action: PayloadAction<{
@@ -60,6 +57,9 @@ const slice = createSlice({
     });
     builder.addCase(getTasks.fulfilled, (state, action) => {
       state[action.payload.todolistId].push(...action.payload.tasks);
+    });
+    builder.addCase(addTaskTC.fulfilled, (state, action) => {
+      state[action.payload.todoListId].unshift(action.payload);
     });
     builder.addCase(removeTaskTC.fulfilled, (state, action) => {
       const index = state[action.payload.todolistId].findIndex(
@@ -113,68 +113,20 @@ export const addTaskTC = createAsyncThunk(
 
 export const removeTaskTC = createAsyncThunk(
   'tasks/removeTaskTC',
-  (payload: { todolistId: string; taskId: string }, thunkAPI) => {
+  async (payload: { todolistId: string; taskId: string }, thunkAPI) => {
     thunkAPI.dispatch(setStatusAC('loading'));
 
-    return todoApi.removeTask(payload.todolistId, payload.taskId).then(() => ({
-      taskId: payload.taskId,
-      todolistId: payload.todolistId,
-    }));
+    await todoApi.removeTask(payload.todolistId, payload.taskId);
+
+    thunkAPI.dispatch(setStatusAC('idle'));
+
+    return { taskId: payload.taskId, todolistId: payload.todolistId };
   },
 );
 
 export const tasksReducer = slice.reducer;
 
-export const { addTaskAC, changeTaskStatusAC, changeTaskTitleAC } = slice.actions;
-
-// export const getTasks2 = (todolistId: string) => async (dispatch: Dispatch) => {
-//   dispatch(setStatusAC('loading'));
-//   const res = await todoApi.getTasks(todolistId);
-
-//   try {
-//     dispatch(setTasksAC({ todolistId, tasks: res.data.items }));
-//     dispatch(setStatusAC('succeeded'));
-//   } catch (error: any) {
-//     dispatch(setErrorAC(error.message));
-//   }
-// };
-
-// export const addTaskTC =
-//   (todolistId: string, title: string) => async (dispatch: Dispatch) => {
-//     dispatch(setStatusAC('loading'));
-//     const res = await todoApi.addTask(todolistId, title);
-
-//     try {
-//       if (res.data.resultCode === 0) {
-//         dispatch(addTaskAC(res.data.data.item));
-//         dispatch(setStatusAC('succeeded'));
-//       } else if (res.data.messages.length) {
-//         dispatch(setErrorAC(res.data.messages[0]));
-//       } else {
-//         dispatch(setErrorAC('Some error occurred!'));
-//       }
-//     } catch (error) {
-//       console.log('error in addTaskTC');
-//     } finally {
-//       dispatch(setStatusAC('idle'));
-//     }
-//   };
-
-// export const removeTaskTC =
-//   (todolistId: string, taskId: string) => async (dispatch: Dispatch) => {
-//     dispatch(setStatusAC('loading'));
-//     const res = await todoApi.removeTask(todolistId, taskId);
-
-//     try {
-//       if (res.data.resultCode === 0) {
-//         dispatch(removeTaskAC({ taskId, todolistId }));
-//       }
-//     } catch (error) {
-//       console.log('error in removeTaskTC');
-//     } finally {
-//       dispatch(setStatusAC('idle'));
-//     }
-//   };
+export const { changeTaskStatusAC, changeTaskTitleAC } = slice.actions;
 
 export const changeTaskTitleTC =
   (todolistId: string, taskId: string, title: string) =>
